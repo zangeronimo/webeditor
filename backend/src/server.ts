@@ -1,3 +1,10 @@
-import app from './app';
+import express from 'express';
+import '@controllers/UsersController';
 
-app.listen(process.env.Port || 3000);
+const app = express();
+
+app.get('/', (request, response) => {
+  return response.json({ message: 'Hello World' });
+});
+
+app.listen(4000);
