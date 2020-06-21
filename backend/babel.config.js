@@ -14,7 +14,8 @@ module.exports = {
     ['module-resolver', {
       alias: {
         '@config': './src/config',
-        '@src': './src'
+        '@controller': './controller',
+        '@model': './model'
       }
     }]
   ],
