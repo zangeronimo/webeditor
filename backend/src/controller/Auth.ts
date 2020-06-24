@@ -1,8 +1,9 @@
 import jwt from 'jsonwebtoken';
 import { Request, Response } from 'express';
 import WebUser from '@model/WebUser';
+import WebClient from '@model/WebClient';
 
-class Auth {
+export class Auth {
 
     basicUser: string;
     basicPass: string;
@@ -61,5 +62,20 @@ class Auth {
 
         return res.status(500).json({ message: 'invalid authentication!' });
     }
+
+    async register(req: Request, res: Response) {
+        const { name, email, password } = req.body;
+        try {
+            const webClient: WebClient = await WebClient.create({ name, 'active': true });
+            try {
+                const webUser = await WebUser.create({ name, email, password, 'web_client_id': webClient.id, 'active': true });
+                return res.json(webUser);
+            } catch (e) {
+                await webClient.destroy();
+                return res.status(400).json(e);
+            }
+        } catch (e) {
+            return res.status(400).json(e);
+        }
+    }
 }
-export default new Auth;
