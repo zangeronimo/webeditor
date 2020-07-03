@@ -1,4 +1,1 @@
-node_modules
-dist
-.env
-src/config/database.js
+env/env.go
