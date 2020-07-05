@@ -10,11 +10,11 @@ test('it should be ok', () => {
 })
 
 test('it shold be ok get /sayhello url', async () => {
-  const result = await axios.get('http://localhost:4000/')
+  const result = await axios.get('http://localhost:4000/sayhello')
 
   // check de result status
   expect(result.status).toEqual(200)
 
   // check de result body is "Hello World 2.0"
-  expect(result.data).toEqual('Hello World')
+  expect(result.data.message).toEqual('Hello World 2.0')
 })

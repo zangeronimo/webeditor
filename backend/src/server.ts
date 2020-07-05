@@ -1,12 +1,10 @@
-import express from 'express';
-import '@controllers/UsersController';
-import cors from 'cors';
+import { GraphQLServer } from 'graphql-yoga';
+import path from 'path';
+import resolvers from './resolvers/resolvers'
 
-const app = express();
-app.use(cors());
-
-app.get('/', (request, response) => {
-  return response.json({ message: 'Hello World' });
+const server = new GraphQLServer({
+  typeDefs: path.resolve(__dirname, 'schema', 'schema.graphql'),
+  resolvers
 });
 
-app.listen(4000);
+server.start();
