@@ -11,7 +11,8 @@ export default {
             if (user.length === 1) {
                 return user[0];
             }
-        }
+        },
+        sayhello: () => "Hello World 2.0"
     },
 
     Mutation: {
