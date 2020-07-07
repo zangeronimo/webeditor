@@ -1,27 +1,17 @@
-const users = [
-    { id: 1, name: 'Luciano', email: 'zangeronimo@gmail.com' },
-    { id: 2, name: 'Test', email: 'test@gmail.com' },
-]
+import db from '@config/db'
 
 export default {
     Query: {
-        users: () => users,
-        user: (_, { id }) => {
-            const user = users.filter(user => user.id == id)
-            if (user.length === 1) {
-                return user[0];
-            }
-        },
+        users: () => db('users'),
+        user: (_, { id }) => db('users').where({ id }).first(),
         sayhello: () => "Hello World 2.0"
     },
 
     Mutation: {
         createUser: (_, { name, email }) => {
-            const user = { id: 3, name, email }
-            if (users.filter(u => u.id === user.id).length === 0) {
-                users.push(user);
-                return user
-            }
+            const user = { name, email };
+            return db('users').insert(user)
+                .then(id => db('users').where({ id }).first())
         }
     },
 }
