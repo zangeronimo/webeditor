@@ -18,5 +18,4 @@ I had decided using github to show my work, and, I have a dream to help people i
 
 ## Contact
 zangeronimo@gmail.com
-
-
+https://www.linkedin.com/in/zangeronimo/
