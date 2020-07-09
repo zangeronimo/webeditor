@@ -17,10 +17,10 @@ test('it shold be ok add user with id 1', async () => {
     }
   });
 
-  // // check de result status
+  // // check the result status
   expect(result.status).toEqual(200);
 
-  // // check de result body a user with id = 1
+  // // check the result body a user with id = 1
   expect(result.data.data.createUser.email).toEqual('zangeronimo@gmail.com');
 })
 
@@ -37,10 +37,10 @@ test('it shold be ok Users list query', async () => {
     }
   });
 
-  // check de result status
+  // check the result status
   expect(result.status).toEqual(200);
 
-  // check de result body a list of users
+  // check the result body a list of users
   expect(result.data.data.users).toBeTruthy();
 })
 
@@ -57,9 +57,9 @@ test('it shold be ok User with id 1 query', async () => {
     }
   });
 
-  // check de result status
+  // check the result status
   expect(result.status).toEqual(200);
 
-  // check de result body a user with id = 1
+  // check the result body a user with id = 1
   expect(result.data.data.user.id).toEqual('1');
 })

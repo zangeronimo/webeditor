@@ -13,9 +13,9 @@ test('it shold be ok get sayhello query', async () => {
     }
   });
 
-  // check de result status
+  // check the result status
   expect(result.status).toEqual(200)
 
-  // check de result body is "Hello World 2.0"
+  // check the result body is "Hello World 2.0"
   expect(result.data.data.sayhello).toEqual("Hello World 2.0")
 })
