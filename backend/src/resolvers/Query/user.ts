@@ -1,7 +1,7 @@
 import db from '@config/db';
 
-const users = () => db('users');
-const user = (_, { id }) => db('users').where({ id }).first();
+const users = () => db('web_user');
+const user = (_, { id }) => db('web_user').where({ id }).first();
 const sayhello = () => "Hello World 2.0";
 
 export = {
