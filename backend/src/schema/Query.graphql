@@ -1,5 +1,9 @@
 type Query {
-    users: [User!]!
-    user(id: ID!): User
     sayhello: String!
+
+    users: [User!]!
+    user(filter: UserFilter!): User
+
+    clients: [Client!]!
+    client(filter: ClientFilter!): Client
 }

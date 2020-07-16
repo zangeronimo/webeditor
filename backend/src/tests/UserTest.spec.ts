@@ -27,7 +27,7 @@ test('it shold be ok User with id 1 query', async () => {
     data: {
       query: `
         query {
-          user (id: 1) { id name email }
+          user (filter: {id: 1}) { id name email }
         } 
       `
     }

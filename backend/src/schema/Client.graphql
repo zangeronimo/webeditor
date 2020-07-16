@@ -1,0 +1,8 @@
+type Client {
+    id: ID!
+    name: String!
+}
+input ClientFilter {
+    id: ID
+    name: String
+}
