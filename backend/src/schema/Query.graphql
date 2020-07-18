@@ -4,8 +4,8 @@ type Query {
     users: [User!]!
     user(filter: UserFilter!): User
 
-    webClients: [Client!]!
-    webClient(filter: ClientFilter!): Client
+    webClients: [WebClient!]!
+    webClient(filter: WebClientFilter!): WebClient
 
     webTools: [WebTool!]!
     webTool(filer: WebToolFilter!): WebTool

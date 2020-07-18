@@ -1,10 +1,10 @@
 type Mutation {
     createUser(name: String!, email: String!): User
 
-    # Client Mutations
-    createWebClient(data: ClientForm!): Client
-    updateWebClient(filter: ClientFilter!, data: ClientForm!): Client
-    deleteWebClient(filter: ClientFilter!): Client
+    # WebClient Mutations
+    createWebClient(data: WebClientForm!): WebClient
+    updateWebClient(filter: WebClientFilter!, data: WebClientForm!): WebClient
+    deleteWebClient(filter: WebClientFilter!): WebClient
 
     # WebTool Mutations
     createWebTool(data: WebToolForm!): WebTool

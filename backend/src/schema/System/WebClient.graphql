@@ -1,12 +1,14 @@
-type Client {
+type WebClient {
     id: ID!
     name: String!
     password: String!
+    webTools: [WebTool]
 }
-input ClientFilter {
+input WebClientFilter {
     id: ID
 }
-input ClientForm {
+input WebClientForm {
     name: String!
     password: String
+    webTools: [WebToolFilter]
 }
