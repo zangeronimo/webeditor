@@ -7,7 +7,7 @@ test('it shold be ok Client list query', async () => {
     data: {
       query: `
         query {
-          clients { id name }
+          webClients { id name }
         } 
       `
     }
@@ -17,7 +17,7 @@ test('it shold be ok Client list query', async () => {
   expect(result.status).toEqual(200);
 
   // check the result body a list of clients
-  expect(result.data.data.clients).toBeTruthy();
+  expect(result.data.data.webClients).toBeTruthy();
 })
 
 test('it shold be ok Client with id 1 query', async () => {
@@ -27,7 +27,7 @@ test('it shold be ok Client with id 1 query', async () => {
     data: {
       query: `
         query {
-          client (filter: {id: 1}) { id name }
+          webClient (filter: {id: 1}) { id name }
         } 
       `
     }
@@ -36,5 +36,5 @@ test('it shold be ok Client with id 1 query', async () => {
   // check the result status
   expect(result.status).toEqual(200);
   // check the result body a client with id = 1
-  expect(result.data.data.client.id).toEqual('1');
+  expect(result.data.data.webClient.id).toEqual('1');
 })
