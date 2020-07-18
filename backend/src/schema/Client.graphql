@@ -1,8 +1,12 @@
 type Client {
     id: ID!
     name: String!
+    password: String!
 }
 input ClientFilter {
     id: ID
-    name: String
+}
+input ClientForm {
+    name: String!
+    password: String
 }

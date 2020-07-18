@@ -1,3 +1,8 @@
 type Mutation {
     createUser(name: String!, email: String!): User
+
+    # Client Mutations
+    createClient(data: ClientForm!): Client
+    updateClient(filter: ClientFilter!, data: ClientForm!): Client
+    deleteClient(filter: ClientFilter!): Client
 }

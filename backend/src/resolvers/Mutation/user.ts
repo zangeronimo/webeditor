@@ -11,6 +11,6 @@ const createUser = async (_, { name, email, password }) => {
     }
 }
 
-export = {
+export {
     createUser,
 }
