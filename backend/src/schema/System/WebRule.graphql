@@ -10,5 +10,5 @@ input WebRuleFilter {
 input WebRuleForm {
     name: String!
     label: String!
-    webTool: WebToolFilter
+    webTool: WebToolFilter!
 }

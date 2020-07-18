@@ -3,6 +3,7 @@ type WebUser {
     name: String!
     email: String!
     avatar: String!
+    webClient: WebClient!
 }
 input WebUserFilter {
     id: ID
@@ -10,4 +11,6 @@ input WebUserFilter {
 input WebUserForm {
     name: String!
     email: String!
+    password: String
+    webClient: WebClientFilter!
 }
