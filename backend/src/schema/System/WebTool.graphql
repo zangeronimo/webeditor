@@ -1,0 +1,10 @@
+type WebTool {
+    id: ID!
+    name: String!
+}
+input WebToolFilter {
+    id: ID
+}
+input WebToolForm {
+    name: String!
+}

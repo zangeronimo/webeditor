@@ -1,7 +1,9 @@
 import * as user from './user';
-import * as client from './client';
+import * as webClient from './System/webClient';
+import * as webTool from './System/webTool';
 
 export = {
     ...user,
-    ...client,
+    ...webClient,
+    ...webTool,
 }
