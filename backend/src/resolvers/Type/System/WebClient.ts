@@ -7,6 +7,6 @@ module.exports = {
                 'web_client_has_web_tool',
                 'web_tool.id',
                 'web_client_has_web_tool.web_tool_id'
-            ).where({ web_client_id: WebClient.id })
+            ).where({ web_client_id: WebClient.id });
     }
 }

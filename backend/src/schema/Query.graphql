@@ -8,5 +8,8 @@ type Query {
     webClient(filter: WebClientFilter!): WebClient
 
     webTools: [WebTool!]!
-    webTool(filer: WebToolFilter!): WebTool
+    webTool(filter: WebToolFilter!): WebTool
+
+    webRules: [WebRule!]!
+    webRule(filter: WebRuleFilter!): WebRule
 }

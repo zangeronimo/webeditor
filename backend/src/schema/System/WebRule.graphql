@@ -1,0 +1,14 @@
+type WebRule {
+    id: ID!
+    name: String!
+    label: String!
+    webTool: WebTool!
+}
+input WebRuleFilter {
+    id: ID
+}
+input WebRuleForm {
+    name: String!
+    label: String!
+    webTool: WebTool!
+}

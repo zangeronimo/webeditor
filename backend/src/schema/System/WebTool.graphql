@@ -2,6 +2,7 @@ type WebTool {
     id: ID!
     name: String!
     webClients: [WebClient]
+    webRules: [WebRule]
 }
 input WebToolFilter {
     id: ID

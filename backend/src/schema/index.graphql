@@ -3,3 +3,4 @@
 #import User from 'User.graphql'
 #import WebClient from 'System/WebClient.graphql'
 #import WebTool from 'System/WebTool.graphql'
+#import WebRule from 'System/WebRule.graphql'
