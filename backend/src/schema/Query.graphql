@@ -1,8 +1,6 @@
 type Query {
-    sayhello: String!
-
-    users: [User!]!
-    user(filter: UserFilter!): User
+    webUsers: [WebUser!]!
+    webUser(filter: WebUserFilter!): WebUser
 
     webClients: [WebClient!]!
     webClient(filter: WebClientFilter!): WebClient

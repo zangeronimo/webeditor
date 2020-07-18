@@ -1,5 +1,9 @@
 type Mutation {
-    createUser(name: String!, email: String!): User
+
+    # WebUser Mutations
+    createWebUser(data: WebUserForm!): WebUser
+    updateWebUser(filter: WebUserFilter!, data: WebUserForm!): WebUser
+    deleteWebUser(filter: WebUserFilter!): WebUser
 
     # WebClient Mutations
     createWebClient(data: WebClientForm!): WebClient

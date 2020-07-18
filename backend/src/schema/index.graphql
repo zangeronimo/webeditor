@@ -1,6 +1,6 @@
 #import Query from 'Query.graphql'
 #import Mutation from 'Mutation.graphql'
-#import User from 'User.graphql'
+#import WebUser from 'System/WebUser.graphql'
 #import WebClient from 'System/WebClient.graphql'
 #import WebTool from 'System/WebTool.graphql'
 #import WebRule from 'System/WebRule.graphql'

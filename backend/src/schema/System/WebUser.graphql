@@ -1,0 +1,13 @@
+type WebUser {
+    id: ID!
+    name: String!
+    email: String!
+    avatar: String!
+}
+input WebUserFilter {
+    id: ID
+}
+input WebUserForm {
+    name: String!
+    email: String!
+}
