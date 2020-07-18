@@ -10,4 +10,9 @@ type Mutation {
     createWebTool(data: WebToolForm!): WebTool
     updateWebTool(filter: WebToolFilter!, data: WebToolForm!): WebTool
     deleteWebTool(filter: WebToolFilter!): WebTool
+
+    # WebRule Mutations
+    createWebRule(data: WebRuleForm!): WebRule
+    updateWebRule(filter: WebRuleFilter!, data: WebRuleForm!): WebRule
+    deleteWebRule(filter: WebRuleFilter!): WebRule
 }
