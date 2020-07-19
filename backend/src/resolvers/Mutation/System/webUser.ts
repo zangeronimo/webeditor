@@ -10,8 +10,11 @@ const createWebUser = async (_, { data }) => {
             return new Error('password is required');
         }
 
-        // Check if has webRules and remove then, only in Update mode is possible add Rules.
+        // Check if has webRules, save and remove then, only after create a user is possible add Rules.
+        let webRules: [any]
         if (data.webRules) {
+            webRules = data.webRules;
+
             // Remove webRules
             delete data.webRules
         }
@@ -24,7 +27,20 @@ const createWebUser = async (_, { data }) => {
         delete data.webClient;
 
         return db('web_user').insert(data)
-            .then(id => getWebUser(_, { filter: { id } }))
+            .then(async id => {
+                // Check if has webRules to update
+                if (webRules) {
+                    try {
+                        await setRules(id, webRules)
+                    } catch (e) {
+                        throw new Error(e.sqlMessage);
+                    }
+
+                    // Remove webRules
+                    delete data.webRules
+                }
+                return getWebUser(_, { filter: { id } })
+            })
             .catch(e => new Error(e.sqlMessage));
     } catch (e) {
         throw new Error(e.sqlMessage);
@@ -65,7 +81,7 @@ const updateWebUser = async (_, { filter, data }) => {
     }
 }
 
-const setRules = async (user: number, rules: [any]) => {
+const setRules = async (user: any, rules: [any]) => {
     //First empty all user rules
     await db('web_user_has_web_rule').where({ web_user_id: user }).delete();
 
