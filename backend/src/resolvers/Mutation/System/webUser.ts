@@ -4,8 +4,16 @@ import { webUser as getWebUser } from '@resolvers/Query/System/webUser';
 
 const createWebUser = async (_, { data }) => {
     try {
+
+        // Password is required for a new User
         if (!data.password) {
             return new Error('password is required');
+        }
+
+        // Check if has webRules and remove then, only in Update mode is possible add Rules.
+        if (data.webRules) {
+            // Remove webRules
+            delete data.webRules
         }
 
         // Cript the password
@@ -25,21 +33,45 @@ const createWebUser = async (_, { data }) => {
 
 const updateWebUser = async (_, { filter, data }) => {
     try {
-        // Check if has a password and cript then
-        if (data.password) {
-            data.password = hashPassword(data.password);
-        }
-
-        // Convert webClient in a web_client_id and delete webClient in the data structure.
-        data.web_client_id = data.webClient.id;
-        delete data.webClient;
-
         const webUser = await getWebUser(_, { filter });
         if (webUser) {
+            // Check if has webRules to update
+            if (data.webRules) {
+                try {
+                    await setRules(webUser.id, data.webRules)
+                } catch (e) {
+                    throw new Error(e.sqlMessage);
+                }
+
+                // Remove webRules
+                delete data.webRules
+            }
+
+            // Check if has a password and cript then
+            if (data.password) {
+                data.password = hashPassword(data.password);
+            }
+
+            // Convert webClient in a web_client_id and delete webClient in the data structure.
+            data.web_client_id = data.webClient.id;
+            delete data.webClient;
+
             const { id } = webUser;
             await db('web_user').where({ id }).update(data)
         }
         return !webUser ? null : { ...webUser, ...data };
+    } catch (e) {
+        throw new Error(e.sqlMessage);
+    }
+}
+
+const setRules = async (user: number, rules: [any]) => {
+    //First empty all user rules
+    await db('web_user_has_web_rule').where({ web_user_id: user }).delete();
+
+    //Next iterate all rules and add to user
+    try {
+        rules.forEach(async rule => await db('web_user_has_web_rule').insert({ web_user_id: user, web_rule_id: rule.id }))
     } catch (e) {
         throw new Error(e.sqlMessage);
     }

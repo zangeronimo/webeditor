@@ -3,6 +3,7 @@ type WebRule {
     name: String!
     label: String!
     webTool: WebTool!
+    webUsers: [WebRule]
 }
 input WebRuleFilter {
     id: ID

@@ -4,6 +4,7 @@ type WebUser {
     email: String!
     avatar: String!
     webClient: WebClient!
+    webRules: [WebRule]
 }
 input WebUserFilter {
     id: ID
@@ -13,4 +14,5 @@ input WebUserForm {
     email: String!
     password: String
     webClient: WebClientFilter!
+    webRules: [WebRuleFilter]
 }
