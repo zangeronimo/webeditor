@@ -30,14 +30,7 @@ const createWebUser = async (_, { data }) => {
             .then(async id => {
                 // Check if has webRules to update
                 if (webRules) {
-                    try {
-                        await setRules(id, webRules)
-                    } catch (e) {
-                        throw new Error(e.sqlMessage);
-                    }
-
-                    // Remove webRules
-                    delete data.webRules
+                    await setRules(id, webRules);
                 }
                 return getWebUser(_, { filter: { id } })
             })
