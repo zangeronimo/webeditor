@@ -4,3 +4,4 @@
 #import WebClient from 'System/WebClient.graphql'
 #import WebTool from 'System/WebTool.graphql'
 #import WebRule from 'System/WebRule.graphql'
+#import AuthPayload from 'Authentication/AuthPayload.graphql'

@@ -10,4 +10,6 @@ type Query {
 
     webRules: [WebRule!]!
     webRule(filter: WebRuleFilter!): WebRule
+
+    Login(data: LoginData!): AuthPayload
 }

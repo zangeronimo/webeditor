@@ -5,3 +5,6 @@ export const hashPassword = (pass: string) => {
     const salt = bcrypt.genSaltSync()
     return bcrypt.hashSync(pass, salt)
 }
+export const checkPassword = async (pass: string, hash: string) => {
+    return await bcrypt.compare(pass, hash);
+}

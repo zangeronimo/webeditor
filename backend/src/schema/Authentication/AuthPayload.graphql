@@ -1,0 +1,8 @@
+type AuthPayload {
+    token: String
+    webUser: WebUser
+}
+input LoginData {
+    email: String!
+    password: String!
+}
