@@ -1,7 +1,7 @@
 import db from '@config/db';
 import { checkPassword } from '../../security';
 import * as jwt from 'jsonwebtoken';
-import { APP_SECRET } from '../../../../.env';
+const env = require('@home/.env');
 
 const Login = async (_, { data }) => {
     const { email, password } = data;
@@ -16,7 +16,8 @@ const Login = async (_, { data }) => {
         return new Error('invalid login');
     }
 
-    const token = jwt.sign({ userId: User.id }, APP_SECRET)
+    const { APP_SECRET, JWTPAYLOAD } = env;
+    const token = jwt.sign(JWTPAYLOAD, APP_SECRET)
     return { token, webUser: User };
 }
 
