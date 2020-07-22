@@ -1,7 +1,6 @@
 import db from '@config/db';
 import { checkPassword } from '../../security';
 import * as jwt from 'jsonwebtoken';
-const env = require('@home/.env');
 
 const Login = async (_, { data }, ctx) => {
     const { email, password } = data;
@@ -16,11 +15,11 @@ const Login = async (_, { data }, ctx) => {
         return new Error('invalid login');
     }
 
-    const { APP_SECRET } = env;
-    const token = jwt.sign({ sub: "WEBEditor" }, APP_SECRET, { expiresIn: 15 })
+    const { APP_AUTH_SECRET } = process.env;
+    const token = jwt.sign({ sub: "WEBEditor" }, APP_AUTH_SECRET, { expiresIn: 300 })
 
     // Create a refresh-token and send a httpOnly cookie
-    const refreshToken = jwt.sign({ sub: "WEBEditor" }, APP_SECRET, { expiresIn: (60 * 60 * 24) })
+    const refreshToken = jwt.sign({ sub: "WEBEditor" }, APP_AUTH_SECRET, { expiresIn: (60 * 60 * 24) })
     ctx.res.cookie('token', refreshToken, { httpOnly: true })
 
     return { token, webUser: User };

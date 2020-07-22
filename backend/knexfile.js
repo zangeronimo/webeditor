@@ -1,11 +1,9 @@
-const { dbconfig } = require("./.env")
-
 module.exports = {
-  client: dbconfig.client,
+  client: process.env.DB_CLIENT,
   connection: {
-    database: dbconfig.database,
-    user: dbconfig.user,
-    password: dbconfig.password
+    database: process.env.DB_DATABASE,
+    user: process.env.DB_USER,
+    password: process.env.DB_PASSWORD
   },
   pool: {
     min: 2,
