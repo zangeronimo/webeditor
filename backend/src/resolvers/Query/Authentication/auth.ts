@@ -2,7 +2,7 @@ import db from '../../../config/db';
 import { checkPassword } from '../../security';
 import * as jwt from 'jsonwebtoken';
 
-const Login = async (_, { data }, ctx) => {
+const login = async (_, { data }, ctx) => {
     const { email, password } = data;
     const User = await db('web_user').where({ email }).first();
 
@@ -26,5 +26,5 @@ const Login = async (_, { data }, ctx) => {
 }
 
 export {
-    Login,
+    login,
 }

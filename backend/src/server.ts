@@ -7,7 +7,7 @@ import resolvers from './resolvers'
 const server = new GraphQLServer({
   typeDefs: path.resolve(__dirname, 'schema', 'index.graphql'),
   resolvers,
-  // context
+  context
 });
 
 server.start();
