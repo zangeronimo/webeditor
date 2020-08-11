@@ -1,15 +1,19 @@
+import knex from 'knex';
 
-exports.up = function (knex) {
+export async function up(knex: knex) {
     return knex.schema.createTable('web_rule', table => {
-        table.increments('id').primary()
-        table.string('name', 45).notNull()
-        table.string('label', 45).notNull()
-        table.boolean('active')
-            .notNull().defaultTo(true)
-        table.timestamp('add_at')
-            .defaultTo(knex.fn.now())
+        table.increments('id').primary();
+        table.string('name', 45).notNullable();
+        table.string('label', 45).notNullable();
+        table.boolean('active').notNullable().defaultTo(true);
+        table.timestamp('add_at').defaultTo(knex.fn.now());
         table.integer('web_tool_id').unsigned()
-        table.foreign('web_tool_id').references('web_tool.id')
+
+        table.foreign('web_tool_id')
+            .references('web_tool.id')
+            .onUpdate('CASCADE')
+            .onUpdate('CASCADE');
+
     }).then(function () {
         return knex('web_rule').insert([
             {
@@ -34,6 +38,6 @@ exports.up = function (knex) {
     })
 };
 
-exports.down = function (knex) {
-    return knex.schema.dropTable('web_rule')
+export async function down(knex: knex) {
+    return knex.schema.dropTable('web_rule');
 };

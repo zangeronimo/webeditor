@@ -1,5 +1,5 @@
-import db from '@config/db';
-import { webTool as getWebTool } from '@resolvers/Query/System/webTool';
+import db from '../../../config/db';
+import { webTool as getWebTool } from '../../Query/System/webTool';
 
 const createWebTool = async (_, { data }) => {
     try {

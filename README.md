@@ -11,7 +11,7 @@ During years I had worked only with PHP (3, 4, 5, 7) but on 2013 I stopped my jo
 In the year 2017 I had decided stop with the Goats, I have sold all, not kill them. =)<br />
 Since this day, I started my studies again, but, I had decided not using PHP more, and has started study Golang.<br />
 I have studied Golang for a year when I started working at Splice, on your P&D laboratory, to work with Golang, but... I work there yet, but, I do everything, minus like Develop, like I wanted.<br />
-Today I changed my mind, I like to know all process, not only Development, soI study differents technologies like Javascript, UX, Finance, Administration, Database, Pattern and, of course, English, today English is my hard bigger problem, I'm working hard to improve them.
+Today I changed my mind, I like to know all process, not only Development, so I study differents technologies like Javascript, UX, Finance, Administration, Database, Pattern and, of course, English, today English is my hard bigger problem, I'm working hard to improve them.
 
 ## Why now on github?
 I had decided using github to show my work, and, I have a dream to help people in your journeys.

@@ -1,5 +1,5 @@
-import db from '@config/db';
-import { webRule as getWebRule } from '@resolvers/Query/System/webRule';
+import db from '../../../config/db';
+import { webRule as getWebRule } from '../../Query/System/webRule';
 
 const createWebRule = async (_, { data }) => {
     try {

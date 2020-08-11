@@ -1,19 +1,29 @@
 import jwt from 'jsonwebtoken';
+import db from './db';
 
 export default async ({ request, response }) => {
     const auth = request.headers.authorization;
     const token = auth && auth.substring(7);
 
     let webUser = null;
+    let permission = null;
 
     if (token) {
         try {
-            let contentToken = jwt.decode(token);
-            if (new Date(contentToken['exp'] * 1000) > new Date()) {
-                webUser = contentToken
+            const secret = process.env.APP_AUTH_SECRET;
+            const valid = jwt.verify(token, secret);
+            if (valid) {
+                const contentToken = jwt.decode(token);
+                const id = contentToken['id'];
+                if (id) {
+                    // if token is valid and has a user id
+                    webUser = await db('web_user').where({ id }).first();
+                    // permission = getRules(webUser);
+                }
             }
+            // invalid token
         } catch (e) {
-            // token inválido
+            // invalid token
         }
     }
 
@@ -26,9 +36,8 @@ export default async ({ request, response }) => {
     return {
         req: request,
         res: response,
-        webUser,
-        ckechUser() {
-            if (!webUser) throw err
+        getWebClient() {
+            return webUser ? webUser.web_client_id : null;
         }
     }
 }

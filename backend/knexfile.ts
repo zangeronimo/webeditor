@@ -1,3 +1,5 @@
+require('dotenv').config();
+
 module.exports = {
   client: process.env.DB_CLIENT,
   connection: {

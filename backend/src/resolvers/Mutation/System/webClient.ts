@@ -1,6 +1,6 @@
-import db from '@config/db';
-import { generatePassword } from '@resolvers/security';
-import { webClient as getWebClient } from '@resolvers/Query/System/webClient';
+import db from '../../../config/db';
+import { generatePassword } from '../../security';
+import { webClient as getWebClient } from '../../Query/System/webClient';
 
 const createWebClient = async (_, { data }) => {
     try {

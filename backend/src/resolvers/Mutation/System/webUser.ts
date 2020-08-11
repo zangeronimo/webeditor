@@ -1,6 +1,6 @@
-import db from '@config/db';
-import { hashPassword } from '@resolvers/security';
-import { webUser as getWebUser } from '@resolvers/Query/System/webUser';
+import db from '../../../config/db';
+import { hashPassword } from '../../security';
+import { webUser as getWebUser } from '../../Query/System/webUser';
 
 const createWebUser = async (_, { data }) => {
     try {

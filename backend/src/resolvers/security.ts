@@ -8,3 +8,6 @@ export const hashPassword = (pass: string) => {
 export const checkPassword = async (pass: string, hash: string) => {
     return await bcrypt.compare(pass, hash);
 }
+export const hasRuleView = async (webUser: string) => {
+    console.log(webUser);
+}

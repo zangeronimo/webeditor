@@ -1,4 +1,4 @@
-import db from '@config/db';
+import db from '../../../config/db';
 import { checkPassword } from '../../security';
 import * as jwt from 'jsonwebtoken';
 
@@ -16,7 +16,7 @@ const Login = async (_, { data }, ctx) => {
     }
 
     const { APP_AUTH_SECRET } = process.env;
-    const token = jwt.sign({ sub: "WEBEditor" }, APP_AUTH_SECRET, { expiresIn: 300 })
+    const token = jwt.sign({ sub: "WEBEditor", id: User.id }, APP_AUTH_SECRET, { expiresIn: 300 })
 
     // Create a refresh-token and send a httpOnly cookie
     const refreshToken = jwt.sign({ sub: "WEBEditor" }, APP_AUTH_SECRET, { expiresIn: (60 * 60 * 24) })
