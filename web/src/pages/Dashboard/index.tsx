@@ -1,9 +1,9 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import './styles.css';
-import AuthContext from '../../contexts/auth';
+import { useAuth } from '../../contexts/auth';
 
 function Dashboard() {
-    const { signOut } = useContext(AuthContext);
+    const { user, signOut } = useAuth();
 
     function logout() {
         signOut();
@@ -12,6 +12,7 @@ function Dashboard() {
     return (
         <React.Fragment>
             <h2>Dashboard</h2>
+            <p>{user?.name}</p>
             <button onClick={logout}>Sair</button>
         </React.Fragment>
     );

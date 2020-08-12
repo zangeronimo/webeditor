@@ -1,11 +1,11 @@
-import React, { useState, useContext } from 'react';
-import AuthContext from '../../contexts/auth';
+import React, { useState } from 'react';
+import { useAuth } from '../../contexts/auth';
 import { MdVisibility, MdVisibilityOff, MdCheckCircle, MdCancel } from 'react-icons/md';
 
 import './styles.css';
 
 function Login() {
-    const { signIn } = useContext(AuthContext);
+    const { signIn } = useAuth();
 
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
