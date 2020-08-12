@@ -1,5 +1,8 @@
 import React, { createContext, useState, useEffect, useContext } from 'react';
+import jwt from 'jsonwebtoken';
+
 import api from '../services/api';
+import { toast } from 'react-toastify';
 
 interface User {
     id: number;
@@ -15,6 +18,12 @@ interface AuthContextData {
     loading: boolean;
 }
 
+interface JWTData {
+    id: number,
+    name: string,
+    email: string
+}
+
 const AuthContext = createContext<AuthContextData>({} as AuthContextData);
 
 export const AuthProvider: React.FC = ({ children }) => {
@@ -28,6 +37,8 @@ export const AuthProvider: React.FC = ({ children }) => {
         api.defaults.headers['Authorization'] = `Bearer ${storageToken}`;
 
         if (storageToken && storageUser) {
+            // TODO - go to backend and validade jwt before setUser.
+
             setUser(JSON.parse(storageUser));
         }
 
@@ -40,7 +51,7 @@ export const AuthProvider: React.FC = ({ children }) => {
         setUser(null);
     }
 
-    function signIn(email: string, password: string) {
+    async function signIn(email: string, password: string) {
         setLoading(true);
         const headers = { 'Authorization': process.env.BASIC_LOGIN };
         const data = {
@@ -50,24 +61,35 @@ export const AuthProvider: React.FC = ({ children }) => {
             } 
           `
         }
-        api.post("/", data, { headers })
+        await api.post("/", data, { headers })
             .then(result => {
-                //Recebe o token e salva no localstorage
-                const { token } = result.data.data.login;
-                const user = { id: 1, name: "Luciano", email: "zangeronimo@gmail.com" };
+                //Get the token and save him in localstorage
+                try {
+                    const { token } = result.data.data.login;
+                    // Open and get data
+                    const jwtData: JWTData | any = jwt.decode(token);
 
-                setUser(user)
+                    // Get user data
+                    const { id, name, email } = jwtData
+                    const user = { id, name, email };
 
-                api.defaults.headers['Authorization'] = `Bearer ${token}`;
+                    setUser(user)
 
-                localStorage.setItem('token', token);
-                localStorage.setItem('user', JSON.stringify(user));
-                setLoading(false);
+                    api.defaults.headers['Authorization'] = `Bearer ${token}`;
+
+                    localStorage.setItem('token', token);
+                    localStorage.setItem('user', JSON.stringify(user));
+                } catch (err) {
+                    setLoading(false);
+                    toast.warning("Login inválido!");
+                }
             })
             .catch(err => {
-                console.log('Erro', err);
                 setLoading(false);
+                toast.warning("Login inválido!");
             })
+
+        setLoading(false);
     }
 
 

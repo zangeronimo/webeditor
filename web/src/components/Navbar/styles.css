@@ -1,0 +1,25 @@
+
+
+#navbar {   
+    display: flex;
+    padding: 5px 15px;
+    width: 100vw;
+    flex-direction: row;
+    align-items: center; 
+    justify-content: space-between;
+    background-color: var(--color-primary-dark);
+    border-bottom: 5px solid;
+    border-color: var(--color-primary-darker);
+}
+#navbar .logo {
+    display: flex;
+    color: var(--color-title-in-primary);
+    font: 500 3rem Poppins;
+}
+#navbar .tools {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2em;
+    color: var(--color-title-in-primary);
+}

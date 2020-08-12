@@ -1,0 +1,9 @@
+
+
+.footer {    
+    display: flex;
+    width: 100vw;
+    padding: 5px;
+    background-color: var(--color-box-footer-dark);
+    color: var(--color-text-footer-dark);
+}

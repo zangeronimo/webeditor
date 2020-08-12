@@ -15,7 +15,8 @@ function Login() {
     const [formOk, setFormOk] = useState(true);
 
     const login = () => {
-        signIn(email, password);
+        signIn(email, password)
+
     }
 
     const toggleVisibility = () => {
@@ -47,7 +48,7 @@ function Login() {
     return (
         <div id="page-login" className="background">
             <div className="navbar">
-                <div className="title">WEBEditor</div>
+                <div className="logo">WEBEditor</div>
             </div>
             <div className="content">
                 <div className="field">

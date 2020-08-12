@@ -8,35 +8,20 @@
     align-items: center;
 }
 
-.navbar {   
+#page-login .navbar {   
     display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: left; 
-}
-.navbar .title {
-    display: flex;
+    padding: 5px 15px;
     width: 100vw;
-    padding: 8px 0 2px 20px;
-    flex-direction: column;
-    align-items: stretch;
-    font-size: 2em;
-    color: var(--color-title-in-primary);
     background-color: var(--color-primary-dark);
+    justify-content: left;
     border-bottom: 5px solid;
     border-color: var(--color-primary-darker);
 }
 
-.field {
+#page-login .navbar .logo {
     display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: left;
-}
-
-.input {
-    display: flex;
-    flex-direction: row;
+    font: 500 3rem Poppins;
+    color: var(--color-title-in-primary);
 }
 
 .background {
@@ -51,38 +36,26 @@
     background-color: #dbdbdb;
 }
 
-.content {
+#page-login .content {
     background-color:  var(--color-box-base);
     padding: 10px 15px;
     box-shadow: 0px 0px 11px rgb(124, 124, 124);
     border-radius: 5px;
 }
 
-.footer {    
-    display: flex;
-    width: 100vw;
-    padding: 5px;
-    background-color: var(--color-box-footer);
-    color: var(--color-text-footer);
-}
-
-.btn {
+#page-login .content .field {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: left;
-    margin-top: 15px;
 }
 
-.btn button {
-    padding: 5px 0;
-    border-radius: 8px;
-    background-color: var(--color-button-background);
-    font-weight: bold;
-    color: var(--color-button-text);
+#page-login .content .field .input {
+    display: flex;
+    flex-direction: row;
 }
 
-.icon {
+#page-login .content .field .icon {
     display:flex;
     justify-items: center;
     align-items: center;
@@ -93,6 +66,30 @@
     color: var(--color-button-text);
 }
 
-.iconCancel {
+#page-login .content .field .iconCancel {
     color: var(--color-icon-cancel);
+}
+
+#page-login .content .btn {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: left;
+    margin-top: 15px;
+}
+
+#page-login .content .btn button {
+    padding: 5px 0;
+    border-radius: 8px;
+    background-color: var(--color-button-background);
+    font-weight: bold;
+    color: var(--color-button-text);
+}
+    
+#page-login .footer {    
+    display: flex;
+    width: 100vw;
+    padding: 5px;
+    background-color: var(--color-box-footer);
+    color: var(--color-text-footer);
 }

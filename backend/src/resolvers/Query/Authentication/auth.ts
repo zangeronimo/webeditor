@@ -15,8 +15,15 @@ const login = async (_, { data }, ctx) => {
         return new Error('invalid login');
     }
 
+    const jwtPayload = {
+        sub: "WEBEditor",
+        id: User.id,
+        name: User.name,
+        email: User.email,
+    }
+
     const { APP_AUTH_SECRET } = process.env;
-    const token = jwt.sign({ sub: "WEBEditor", id: User.id }, APP_AUTH_SECRET, { expiresIn: 300 })
+    const token = jwt.sign(jwtPayload, APP_AUTH_SECRET, { expiresIn: (24 * 60 * 60) })
 
     // Create a refresh-token and send a httpOnly cookie
     const refreshToken = jwt.sign({ sub: "WEBEditor" }, APP_AUTH_SECRET, { expiresIn: (60 * 60 * 24) })

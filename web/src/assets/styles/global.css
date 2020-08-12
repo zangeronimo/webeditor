@@ -21,7 +21,10 @@
     --color-box-base: #e8e6ff;
     --color-box-footer: #B1AAD345;
     --color-text-footer: #c4c4c4;
+    --color-box-footer-dark: #B1AAD380;
+    --color-text-footer-dark: #979595;
     --color-icon-cancel: #d14848;
+    --color-toasty-background-basic: #fff;
 }
 
 * {
@@ -42,6 +45,11 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
+}
+
+.container {
+    width: 90vw;
+    max-width: 700px;
 }
 
 body,
