@@ -3,11 +3,15 @@ import jwt from 'jsonwebtoken';
 
 import api from '../services/api';
 import { toast } from 'react-toastify';
+import PacmanLoader from "react-spinners/PacmanLoader";
+
+import 'react-toastify/dist/ReactToastify.css';
 
 interface User {
     id: number;
     name: string;
     email: string;
+    avatar: string;
 }
 
 interface AuthContextData {
@@ -15,7 +19,8 @@ interface AuthContextData {
     user: User | null;
     signIn(email: string, password: string): void;
     signOut(): void;
-    loading: boolean;
+    setToggled(): void;
+    toggled: boolean;
 }
 
 interface JWTData {
@@ -29,6 +34,7 @@ const AuthContext = createContext<AuthContextData>({} as AuthContextData);
 export const AuthProvider: React.FC = ({ children }) => {
     const [user, setUser] = useState<User | null>(null);
     const [loading, setLoading] = useState(true);
+    const [toggled, setToggledFlag] = useState(false);
 
     useEffect(() => {
         const storageUser = localStorage.getItem('user');
@@ -42,6 +48,13 @@ export const AuthProvider: React.FC = ({ children }) => {
             setUser(JSON.parse(storageUser));
         }
 
+        // check the windows size
+        const windowWidth = window.innerWidth;
+
+        if (windowWidth < 640) {
+            setToggledFlag(true);
+        }
+
         setLoading(false);
     }, []);
 
@@ -52,7 +65,6 @@ export const AuthProvider: React.FC = ({ children }) => {
     }
 
     async function signIn(email: string, password: string) {
-        setLoading(true);
         const headers = { 'Authorization': process.env.BASIC_LOGIN };
         const data = {
             query: `
@@ -70,8 +82,8 @@ export const AuthProvider: React.FC = ({ children }) => {
                     const jwtData: JWTData | any = jwt.decode(token);
 
                     // Get user data
-                    const { id, name, email } = jwtData
-                    const user = { id, name, email };
+                    const { id, name, email, avatar } = jwtData
+                    const user = { id, name, email, avatar };
 
                     setUser(user)
 
@@ -80,21 +92,30 @@ export const AuthProvider: React.FC = ({ children }) => {
                     localStorage.setItem('token', token);
                     localStorage.setItem('user', JSON.stringify(user));
                 } catch (err) {
-                    setLoading(false);
                     toast.warning("Login inválido!");
                 }
             })
             .catch(err => {
-                setLoading(false);
                 toast.warning("Login inválido!");
             })
-
-        setLoading(false);
     }
 
+    if (loading) {
+        return (
+            <PacmanLoader
+                size={32}
+                color={"#bbb"}
+                loading={loading}
+            />
+        );
+    }
+
+    function setToggled() {
+        setToggledFlag(!toggled);
+    }
 
     return (
-        <AuthContext.Provider value={{ signed: !!user, user, signIn, signOut, loading }}>
+        <AuthContext.Provider value={{ signed: !!user, user, signIn, signOut, setToggled, toggled }}>
             {children}
         </AuthContext.Provider>
     );

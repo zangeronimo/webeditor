@@ -5,7 +5,6 @@ import { BrowserRouter } from 'react-router-dom';
 import { AuthProvider } from './contexts/auth';
 
 import './assets/styles/global.css'
-import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer } from 'react-toastify';
 
 function App() {

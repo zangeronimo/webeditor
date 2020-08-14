@@ -1,10 +1,13 @@
 import React from 'react';
-import { Route } from 'react-router-dom';
+import { Route, Switch } from 'react-router-dom';
 import Login from '../pages/Login';
 
 function AuthRoutes() {
     return (
-        <Route path="/" exact component={Login} />
+        <Switch>
+            <Route path="/" exact component={Login} />
+            <Route path='*' component={Login} />
+        </Switch>
     );
 }
 

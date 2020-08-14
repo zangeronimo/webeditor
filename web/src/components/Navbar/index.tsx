@@ -1,10 +1,10 @@
 import React from 'react';
 import './styles.css';
 import { useAuth } from '../../contexts/auth';
-import { MdExitToApp } from 'react-icons/md';
+import { MdExitToApp, MdMenu } from 'react-icons/md';
 
 function Navbar() {
-    const { signOut } = useAuth();
+    const { signOut, setToggled } = useAuth();
 
     function logout() {
         signOut();
@@ -12,8 +12,10 @@ function Navbar() {
 
     return (
         <div id="navbar">
-            <div className="logo">WEBEditor</div>
-            <div className="tools">
+            <div className="icon">
+                <MdMenu onClick={setToggled} />
+            </div>
+            <div className="icon">
                 <MdExitToApp onClick={logout} />
             </div>
         </div>

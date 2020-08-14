@@ -46,12 +46,12 @@ function Login() {
     }
 
     return (
-        <div id="page-login" className="background">
-            <div className="navbar">
+        <section id="page-login" className="background">
+            <header className="navbar">
                 <div className="logo">WEBEditor</div>
-            </div>
-            <div className="content">
-                <div className="field">
+            </header>
+            <section className="content">
+                <article className="field">
                     Email
                     <div className="input">
                         <input type="text"
@@ -61,8 +61,8 @@ function Login() {
                             onChange={changeEmail} />
                         <div className="icon">{iconCheckEmail}</div>
                     </div>
-                </div>
-                <div className="field">
+                </article>
+                <article className="field">
                     Senha
                     <div className="input">
                         <input type={passwordType}
@@ -70,16 +70,16 @@ function Login() {
                             onChange={e => setPassword(e.target.value)} />
                         <div className="icon" onClick={() => toggleVisibility()}>{iconEye}</div>
                     </div>
-                </div>
+                </article>
                 {/* <div>
                     <a href="#ok">Esqueci minha senha</a>
                 </div> */}
                 <div className="btn">
                     <button onClick={login} disabled={formOk}>Entrar</button>
                 </div>
-            </div>
-            <div className="footer">Versão 0.0.1</div>
-        </div>
+            </section>
+            <footer className="footer">Versão 0.0.1</footer>
+        </section>
     )
 
 
