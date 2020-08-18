@@ -12,4 +12,5 @@ type Query {
     webRule(filter: WebRuleFilter!): WebRule
 
     login(data: LoginData!): AuthPayload
+    refreshToken: AuthPayload
 }

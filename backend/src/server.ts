@@ -10,4 +10,11 @@ const server = new GraphQLServer({
   context
 });
 
-server.start();
+server.start(
+  {
+    cors: {
+      credentials: true,
+      origin: [process.env.WEB_URL]
+    },
+  }
+);

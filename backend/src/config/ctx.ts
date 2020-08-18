@@ -3,7 +3,7 @@ import db from './db';
 
 export default async ({ request, response }) => {
     const auth = request.headers.authorization;
-    const token = auth && auth.substring(7);
+    const token = auth && auth.includes('Bearer ') && auth.substring(7);
 
     let webUser = null;
     let permission = null;

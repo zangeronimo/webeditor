@@ -3,6 +3,7 @@ type WebUser {
     name: String!
     email: String!
     avatar: String!
+    active: Boolean!
     webClient: WebClient!
     webRules: [WebRule]
 }
@@ -13,6 +14,7 @@ input WebUserForm {
     name: String!
     email: String!
     password: String
+    avatar: String!
     webClient: WebClientFilter!
     webRules: [WebRuleFilter]
 }
