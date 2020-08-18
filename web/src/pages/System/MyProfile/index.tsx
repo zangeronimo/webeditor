@@ -22,8 +22,7 @@ function MyProfile() {
             name: "${name}",
             email:"${email}",
             ${newPassword}
-            avatar: "${avatar}",
-            webClient: { id: 1 }
+            avatar: "${avatar}"
         }`;
 
         const query = `

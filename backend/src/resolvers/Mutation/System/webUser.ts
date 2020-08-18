@@ -2,7 +2,12 @@ import db from '../../../config/db';
 import { hashPassword } from '../../security';
 import { webUser as getWebUser } from '../../Query/System/webUser';
 
-const createWebUser = async (_, { data }) => {
+const createWebUser = async (_, { data }, ctx) => {
+    const webClient = ctx.getWebClient();
+    if (!webClient || !ctx.hasPermission('RULE_ALTER_WEBUSER')) {
+        return new Error('access denied');
+    }
+
     try {
 
         // Password is required for a new User
@@ -22,9 +27,8 @@ const createWebUser = async (_, { data }) => {
         // Cript the password
         data.password = hashPassword(data.password);
 
-        // Convert webClient in a web_client_id and delete webClient in the data structure.
-        data.web_client_id = data.webClient.id;
-        delete data.webClient;
+        // add web_client_id from data structure.
+        data.web_client_id = data.webClient;
 
         return db('web_user').insert(data)
             .then(async id => {
@@ -32,7 +36,7 @@ const createWebUser = async (_, { data }) => {
                 if (webRules) {
                     await setRules(id, webRules);
                 }
-                return getWebUser(_, { filter: { id } })
+                return getWebUser(_, { filter: { id } }, ctx)
             })
             .catch(e => new Error(e.sqlMessage));
     } catch (e) {
@@ -40,9 +44,14 @@ const createWebUser = async (_, { data }) => {
     }
 }
 
-const updateWebUser = async (_, { filter, data }) => {
+const updateWebUser = async (_, { filter, data }, ctx) => {
+    const webClient = ctx.getWebClient();
+    if (!webClient || !ctx.hasPermission('RULE_ALTER_WEBUSER')) {
+        return new Error('access denied');
+    }
+
     try {
-        const webUser = await getWebUser(_, { filter });
+        const webUser = await getWebUser(_, { filter }, ctx);
         if (webUser) {
             // Check if has webRules to update
             if (data.webRules) {
@@ -61,12 +70,11 @@ const updateWebUser = async (_, { filter, data }) => {
                 data.password = hashPassword(data.password);
             }
 
-            // Convert webClient in a web_client_id and delete webClient in the data structure.
-            data.web_client_id = data.webClient.id;
-            delete data.webClient;
+            // add web_client_id from data structure.
+            data.web_client_id = data.webClient;
 
             const { id } = webUser;
-            await db('web_user').where({ id }).update(data)
+            await db('web_user').where({ id, web_client_id: webClient }).update(data)
         }
         return !webUser ? null : { ...webUser, ...data };
     } catch (e) {
@@ -86,12 +94,17 @@ const setRules = async (user: any, rules: [any]) => {
     }
 }
 
-const deleteWebUser = async (_, { filter }) => {
+const deleteWebUser = async (_, { filter }, ctx) => {
+    const webClient = ctx.getWebClient();
+    if (!webClient || !ctx.hasPermission('RULE_DELETE_WEBUSER')) {
+        return new Error('access denied');
+    }
+
     try {
-        const webUser = await getWebUser(_, { filter });
+        const webUser = await getWebUser(_, { filter }, ctx);
         if (webUser) {
             const { id } = webUser;
-            await db('web_user').where({ id }).delete();
+            await db('web_user').where({ id, web_client_id: webClient }).delete();
         }
 
         return webUser;
