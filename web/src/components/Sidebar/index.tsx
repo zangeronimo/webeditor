@@ -1,8 +1,7 @@
-import React, { useState } from 'react';
+import React from 'react';
 
 import { useAuth } from '../../contexts/auth';
 import { Link } from 'react-router-dom';
-import { MdExpandLess, MdExpandMore } from 'react-icons/md';
 
 import './styles.css';
 import MenuItem from './MenuItem';
@@ -12,7 +11,7 @@ interface SidebarProps {
 }
 
 const Sidebar: React.FC<SidebarProps> = (props) => {
-    const { user, toggled } = useAuth();
+    const { user, toggled, checkWindowWidthToToggle } = useAuth();
 
     if (toggled) {
         return (<React.Fragment></React.Fragment>);
@@ -21,7 +20,6 @@ const Sidebar: React.FC<SidebarProps> = (props) => {
     let width = props.width ? props.width : '16.5rem';
 
     const sidebarStyles = {
-        height: '100%',
         width: `${width}`,
     };
 
@@ -38,17 +36,17 @@ const Sidebar: React.FC<SidebarProps> = (props) => {
             </header>
 
             <MenuItem>
-                <Link className="link" to="/" title="Dashboard">Dashboard</Link>
+                <Link className="link" to="/" title="Dashboard" onClick={checkWindowWidthToToggle}>Dashboard</Link>
             </MenuItem>
 
             <MenuItem id={10} title="Institucional">
-                <Link className="link" to="/institutional/new-page" title="Nova Página">Nova Página</Link>
-                <Link className="link" to="/institutional/main-menu" title="Menu principal">Menu Principal</Link>
+                <Link className="link" to="/institutional/new-page" title="Nova Página" onClick={checkWindowWidthToToggle}>Nova Página</Link>
+                <Link className="link" to="/institutional/main-menu" title="Menu principal" onClick={checkWindowWidthToToggle}>Menu Principal</Link>
             </MenuItem>
 
             <MenuItem id={99} title="Sistema WEBEditor">
-                <Link className="link" to="/" title="Dashboard">Alterar meu perfil</Link>
-                <Link className="link" to="/" title="Dashboard">Usuários do sistema</Link>
+                <Link className="link" to="/system/my-profile" title="Dashboard" onClick={checkWindowWidthToToggle}>Alterar meu perfil</Link>
+                <Link className="link" to="/system/users" title="Dashboard" onClick={checkWindowWidthToToggle}>Usuários do sistema</Link>
             </MenuItem>
         </nav>
     );

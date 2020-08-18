@@ -6,25 +6,25 @@ import Footer from '../components/Footer';
 import Sidebar from '../components/Sidebar';
 
 import './styles.css';
-import MYProfile from '../pages/MyProfile';
+import MYProfile from '../pages/System/MyProfile';
+import SystemUser from '../pages/System/SystemUser';
 
 function AppRoutes() {
     return (
-        <section id="container">
-            <section className="content_block">
-                <Navbar />
-                <nav className="sidebar">
-                    <Sidebar />
-                </nav>
-                <article className="content">
-                    <Switch>
-                        <Route path="/" exact component={Dashboard} />
-                        <Route path="/my-profile" component={MYProfile} />
-                        <Route path='*' component={Dashboard} />
-                    </Switch>
-                </article>
-                <Footer />
-            </section>
+        <section className="content_block">
+            <nav className="sidebar">
+                <Sidebar />
+            </nav>
+            <Navbar />
+            <article className="content">
+                <Switch>
+                    <Route path="/" exact component={Dashboard} />
+                    <Route path="/system/my-profile" component={MYProfile} />
+                    <Route path="/system/users" component={SystemUser} />
+                    <Route path='*' component={Dashboard} />
+                </Switch>
+            </article>
+            <Footer />
         </section>
     );
 }

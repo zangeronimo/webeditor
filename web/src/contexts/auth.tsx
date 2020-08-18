@@ -2,10 +2,8 @@ import React, { createContext, useState, useEffect, useContext } from 'react';
 import jwt from 'jsonwebtoken';
 
 import api from '../services/api';
-import { toast } from 'react-toastify';
 import PacmanLoader from "react-spinners/PacmanLoader";
-
-import 'react-toastify/dist/ReactToastify.css';
+import { AxiosResponse, AxiosRequestConfig } from 'axios';
 
 interface User {
     id: number;
@@ -19,8 +17,11 @@ interface AuthContextData {
     user: User | null;
     signIn(email: string, password: string): void;
     signOut(): void;
+    Query(data: string, config?: AxiosRequestConfig | undefined): Promise<AxiosResponse<any>>;
     setToggled(): void;
     toggled: boolean;
+    checkWindowWidthToToggle(): void;
+    setUser(user: User): void;
 }
 
 interface JWTData {
@@ -37,26 +38,53 @@ export const AuthProvider: React.FC = ({ children }) => {
     const [toggled, setToggledFlag] = useState(false);
 
     useEffect(() => {
-        const storageUser = localStorage.getItem('user');
-        const storageToken = localStorage.getItem('token');
+        api.defaults.withCredentials = true
+        refreshToken()
+            .then(_ => {
+                setLoading(false);
+            })
+            .catch(_ => {
+                console.log('Sessão expirada');
+                signOut();
+                setLoading(false);
+            })
 
-        api.defaults.headers['Authorization'] = `Bearer ${storageToken}`;
-
-        if (storageToken && storageUser) {
-            // TODO - go to backend and validade jwt before setUser.
-
-            setUser(JSON.parse(storageUser));
-        }
-
-        // check the windows size
-        const windowWidth = window.innerWidth;
-
-        if (windowWidth < 640) {
-            setToggledFlag(true);
-        }
-
-        setLoading(false);
+        checkWindowWidthToToggle();
     }, []);
+
+    async function Query(data: string, config?: AxiosRequestConfig | undefined): Promise<AxiosResponse<any>> {
+        // if token is Invalid, refresh token
+        if (isInvalidToken()) {
+            try {
+                await refreshToken()
+            } catch (e) {
+                signOut();
+                return Promise.reject(new Error('Sessão expirada'));
+            }
+        }
+        const token = localStorage.getItem('token');
+        const headers = {
+            'Authorization': `Bearer ${token}`
+        };
+
+        return await api.post('/', { query: data }, { ...config, headers });
+    }
+
+    function isInvalidToken() {
+        const token = localStorage.getItem('token');
+
+        return !token || jwtIsExpired(token);
+    }
+
+    function jwtIsExpired(token: string) {
+        const jwtData: JWTData | any = jwt.decode(token);
+
+        if (Date.now() >= jwtData.exp * 1000 - 5000) {
+            return true;
+        }
+
+        return false;
+    }
 
     function signOut() {
         localStorage.removeItem('token');
@@ -65,10 +93,13 @@ export const AuthProvider: React.FC = ({ children }) => {
     }
 
     async function signIn(email: string, password: string) {
-        const headers = { 'Authorization': process.env.BASIC_LOGIN };
+        const headers = {
+            'Authorization': process.env.BASIC_LOGIN,
+            'withCredentials': true,
+        };
         const data = {
             query: `
-            query {
+            {
               login(data: {email:"${email}", password:"${password}"}) { token }
             } 
           `
@@ -85,29 +116,78 @@ export const AuthProvider: React.FC = ({ children }) => {
                     const { id, name, email, avatar } = jwtData
                     const user = { id, name, email, avatar };
 
-                    setUser(user)
-
-                    api.defaults.headers['Authorization'] = `Bearer ${token}`;
+                    setUser(user);
 
                     localStorage.setItem('token', token);
                     localStorage.setItem('user', JSON.stringify(user));
                 } catch (err) {
-                    toast.warning("Login inválido!");
+                    signOut();
                 }
             })
             .catch(err => {
-                toast.warning("Login inválido!");
+                signOut();
+            })
+    }
+
+    async function refreshToken() {
+        const headers = {
+            'Authorization': process.env.BASIC_LOGIN,
+            'withCredentials': true,
+        };
+        const data = {
+            query: `
+            {
+                refreshToken { token }
+            }
+          `
+        }
+        return await api.post("/", data, { headers })
+            .then(result => {
+                //Get the token and save him in localstorage
+                try {
+                    const { token } = result.data.data.refreshToken;
+
+                    // Open and get data
+                    const jwtData: JWTData | any = jwt.decode(token);
+
+                    // Get user data
+                    const { id, name, email, avatar } = jwtData
+                    const user = { id, name, email, avatar };
+
+                    setUser(user);
+
+                    localStorage.setItem('token', token);
+                    localStorage.setItem('user', JSON.stringify(user));
+
+                    return Promise.resolve(null);
+                } catch (err) {
+                    return Promise.reject(null);
+                }
+            })
+            .catch(err => {
+                return Promise.reject(null);
             })
     }
 
     if (loading) {
         return (
-            <PacmanLoader
-                size={32}
-                color={"#bbb"}
-                loading={loading}
-            />
+            <div className="loader">
+                <PacmanLoader
+                    size={32}
+                    color={"#bbb"}
+                    loading={loading}
+                />
+            </div>
         );
+    }
+
+    function checkWindowWidthToToggle() {
+        // check the windows size
+        const windowWidth = window.innerWidth;
+
+        if (windowWidth < 640) {
+            setToggledFlag(true);
+        }
     }
 
     function setToggled() {
@@ -115,7 +195,7 @@ export const AuthProvider: React.FC = ({ children }) => {
     }
 
     return (
-        <AuthContext.Provider value={{ signed: !!user, user, signIn, signOut, setToggled, toggled }}>
+        <AuthContext.Provider value={{ signed: !!user, user, signIn, signOut, setToggled, toggled, checkWindowWidthToToggle, setUser, Query }}>
             {children}
         </AuthContext.Provider>
     );

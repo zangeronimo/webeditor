@@ -27,7 +27,7 @@ const MenuItem: React.FC<MenuItemProps> = ({ title, id, children }) => {
         return (
             <section className="sidebar_block">
                 <section className="subitem_title" onClick={() => toggleSubmenu(id)}>
-                    {checkSubitem(id) ? <MdKeyboardArrowRight className="icon" /> : <MdExpandMore className="icon" />}
+                    {checkSubitem(id) ? <MdExpandMore className="icon" /> : <MdKeyboardArrowRight className="icon" />}
                     {title}
                 </section>
                 {checkSubitem(id) && (
