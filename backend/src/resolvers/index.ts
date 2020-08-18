@@ -5,7 +5,7 @@ const WebTool = require('./Type/System/WebTool');
 const WebRule = require('./Type/System/WebRule');
 const WebUser = require('./Type/System/WebUser');
 
-export = {
+export default {
     Query,
     Mutation,
     WebClient,

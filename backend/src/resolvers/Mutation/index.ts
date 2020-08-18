@@ -3,7 +3,7 @@ import * as webClient from './System/webClient';
 import * as webTool from './System/webTool';
 import * as webRule from './System/webRule';
 
-export = {
+export default {
     ...webUser,
     ...webClient,
     ...webTool,

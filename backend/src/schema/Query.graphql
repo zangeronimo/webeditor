@@ -13,4 +13,5 @@ type Query {
 
     login(data: LoginData!): AuthPayload
     refreshToken: AuthPayload
+    logout: AuthPayload
 }

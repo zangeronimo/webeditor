@@ -4,7 +4,7 @@ import * as webTool from './System/webTool';
 import * as webRule from './System/webRule';
 import * as auth from './Authentication/auth';
 
-export = {
+export default {
     ...webUser,
     ...webClient,
     ...webTool,

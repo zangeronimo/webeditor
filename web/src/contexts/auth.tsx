@@ -1,9 +1,11 @@
 import React, { createContext, useState, useEffect, useContext } from 'react';
+
 import jwt from 'jsonwebtoken';
 
 import api from '../services/api';
 import PacmanLoader from "react-spinners/PacmanLoader";
 import { AxiosResponse, AxiosRequestConfig } from 'axios';
+import { toast } from 'react-toastify';
 
 interface User {
     id: number;
@@ -44,7 +46,6 @@ export const AuthProvider: React.FC = ({ children }) => {
                 setLoading(false);
             })
             .catch(_ => {
-                console.log('Sessão expirada');
                 signOut();
                 setLoading(false);
             })
@@ -86,15 +87,30 @@ export const AuthProvider: React.FC = ({ children }) => {
         return false;
     }
 
-    function signOut() {
+    async function signOut() {
         localStorage.removeItem('token');
         localStorage.removeItem('user');
-        setUser(null);
+
+        const headers = {
+            'Authorization': 'Basic T0B1dGgyTzpWMzZoSjNANVMkMWtsbQ==',
+            'withCredentials': true,
+        };
+        const data = {
+            query: `
+            {
+              logout { token }
+            } 
+          `
+        }
+        await api.post("/", data, { headers })
+            .then(_ => {
+                setUser(null);
+            })
     }
 
     async function signIn(email: string, password: string) {
         const headers = {
-            'Authorization': process.env.BASIC_LOGIN,
+            'Authorization': 'Basic T0B1dGgyTzpWMzZoSjNANVMkMWtsbQ==',
             'withCredentials': true,
         };
         const data = {
@@ -108,6 +124,9 @@ export const AuthProvider: React.FC = ({ children }) => {
             .then(result => {
                 //Get the token and save him in localstorage
                 try {
+
+                    if (result.data['errors']) { throw new Error("Acesso negado"); }
+
                     const { token } = result.data.data.login;
                     // Open and get data
                     const jwtData: JWTData | any = jwt.decode(token);
@@ -120,18 +139,18 @@ export const AuthProvider: React.FC = ({ children }) => {
 
                     localStorage.setItem('token', token);
                     localStorage.setItem('user', JSON.stringify(user));
-                } catch (err) {
-                    signOut();
+                } catch (_) {
+                    toast.warning('acesso negado');
                 }
             })
-            .catch(err => {
-                signOut();
+            .catch(_ => {
+                toast.warning('acesso negado')
             })
     }
 
     async function refreshToken() {
         const headers = {
-            'Authorization': process.env.BASIC_LOGIN,
+            'Authorization': 'Basic T0B1dGgyTzpWMzZoSjNANVMkMWtsbQ==',
             'withCredentials': true,
         };
         const data = {
