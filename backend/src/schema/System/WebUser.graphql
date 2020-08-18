@@ -15,6 +15,5 @@ input WebUserForm {
     email: String!
     password: String
     avatar: String!
-    webClient: WebClientFilter!
     webRules: [WebRuleFilter]
 }

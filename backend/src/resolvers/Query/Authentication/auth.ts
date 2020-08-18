@@ -1,6 +1,7 @@
 import db from '../../../config/db';
 import { checkPassword } from '../../security';
 import * as jwt from 'jsonwebtoken';
+import { webRules } from '../../Type/System/WebUser';
 
 const { APP_AUTH_SECRET, BASIC_LOGIN_USERNAME, BASIC_LOGIN_PASSWORD } = process.env;
 
@@ -100,10 +101,14 @@ const checkBasicLogin = (ctx) => {
     return false;
 }
 
-const createNewToken = (User, ctx) => {
+const createNewToken = async (User, ctx) => {
     if (!User) {
         return Promise.reject(new Error('invalid login'));
     }
+
+    // Get all user permission and receive a array
+    const rules = await webRules(User);
+    const permissions = rules.map(rule => rule.name);
 
     const jwtPayload = {
         sub: "WEBEditor",
@@ -111,6 +116,7 @@ const createNewToken = (User, ctx) => {
         name: User.name,
         email: User.email,
         avatar: User.avatar,
+        permissions
     }
 
     const token = jwt.sign(jwtPayload, APP_AUTH_SECRET, { expiresIn: 3600 })

@@ -2,7 +2,12 @@ import db from '../../../config/db';
 import { generatePassword } from '../../security';
 import { webClient as getWebClient } from '../../Query/System/webClient';
 
-const createWebClient = async (_, { data }) => {
+const createWebClient = async (_, { data }, ctx) => {
+    const webClient = ctx.getWebClient();
+    if (!webClient || !ctx.hasPermission('RULE_SUPERADMIN')) {
+        return new Error('access denied');
+    }
+
     try {
 
         // Check if has webTools, save and remove then, only after create a client is possible add Tools.
@@ -21,7 +26,7 @@ const createWebClient = async (_, { data }) => {
                 if (webTools) {
                     await setTools(id, webTools);
                 }
-                return getWebClient(_, { filter: { id } })
+                return getWebClient(_, { filter: { id } }, ctx)
             })
             .catch(e => new Error(e.sqlMessage));
     } catch (e) {
@@ -29,9 +34,14 @@ const createWebClient = async (_, { data }) => {
     }
 }
 
-const updateWebClient = async (_, { filter, data }) => {
+const updateWebClient = async (_, { filter, data }, ctx) => {
+    const webClient = ctx.getWebClient();
+    if (!webClient || !ctx.hasPermission('RULE_SUPERADMIN')) {
+        return new Error('access denied');
+    }
+
     try {
-        const webClient = await getWebClient(_, { filter });
+        const webClient = await getWebClient(_, { filter }, ctx);
         if (webClient) {
 
             // Check if has webTools to update
@@ -68,9 +78,14 @@ const setTools = async (client: any, tools: [any]) => {
     }
 }
 
-const deleteWebClient = async (_, { filter }) => {
+const deleteWebClient = async (_, { filter }, ctx) => {
+    const webClient = ctx.getWebClient();
+    if (!webClient || !ctx.hasPermission('RULE_SUPERADMIN')) {
+        return new Error('access denied');
+    }
+
     try {
-        const webClient = await getWebClient(_, { filter });
+        const webClient = await getWebClient(_, { filter }, ctx);
         if (webClient) {
             const { id } = webClient;
             await db('web_client').where({ id }).delete();
